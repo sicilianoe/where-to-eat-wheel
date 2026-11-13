@@ -2,7 +2,8 @@ import { parseTakeoutCsv } from './csv.js';
 import {
   loadState, saveState, addList, removeList, setListActive, setExcluded, activePlaces,
 } from './store.js';
-import { wheelPlaces, pickIndex, targetRotation } from './wheel-model.js';
+import { wheelPlaces, pickIndex, targetRotation, slicesPassed } from './wheel-model.js';
+import { createTicker } from './sound.js';
 import { drawWheel, animateSpin } from './wheel-canvas.js';
 
 const SPIN_MS = 4000;
@@ -13,6 +14,7 @@ const skipped = new Set();
 let rotation = 0;
 let spinning = false;
 let places = [];
+const ticker = createTicker();
 
 function update(next) {
   state = next;
@@ -79,7 +81,9 @@ async function spin() {
 
   const wheel = places;
   const index = pickIndex(wheel.length);
+  ticker.unlock();
   await animateSpin(rotation, targetRotation(index, wheel.length, rotation), SPIN_MS, r => {
+    if (slicesPassed(rotation, r, wheel.length) > 0) ticker.tick();
     rotation = r;
     drawWheel($('wheel'), wheel, rotation);
   });
@@ -113,6 +117,19 @@ $('upload').addEventListener('change', e => {
 });
 
 $('spin').addEventListener('click', spin);
+
+function renderSound() {
+  const btn = $('sound-btn');
+  btn.textContent = ticker.muted ? '🔇' : '🔊';
+  btn.setAttribute('aria-pressed', String(ticker.muted));
+  btn.setAttribute('aria-label', ticker.muted ? 'Unmute sound' : 'Mute sound');
+}
+
+$('sound-btn').addEventListener('click', () => {
+  ticker.setMuted(!ticker.muted);
+  renderSound();
+});
+renderSound();
 
 $('nope').addEventListener('click', e => {
   skipped.add(e.currentTarget.dataset.id);

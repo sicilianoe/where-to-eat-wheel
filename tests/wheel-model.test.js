@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { wheelPlaces, pickIndex, targetRotation, indexAtRotation } from '../src/wheel-model.js';
+import { wheelPlaces, pickIndex, targetRotation, indexAtRotation, slicesPassed } from '../src/wheel-model.js';
 
 const place = title => ({ id: `L|${title}`, list: 'L', title, note: '', url: '' });
 const state = excluded => ({ lists: { L: ['a', 'b', 'c'].map(place) }, activeLists: ['L'], excluded });
@@ -28,4 +28,13 @@ test('targetRotation lands on the chosen slice after full turns (incl. n=1)', ()
       }
     }
   }
+});
+
+test('slicesPassed counts slice boundaries crossing the pointer', () => {
+  const slice = (2 * Math.PI) / 4;
+  assert.equal(slicesPassed(0, slice * 0.4, 4), 0);
+  assert.equal(slicesPassed(slice * 0.9, slice * 1.1, 4), 1);
+  assert.equal(slicesPassed(0, 2 * Math.PI * 5 + slice * 0.5, 4), 20);
+  assert.equal(slicesPassed(0.1, 0.1, 4), 0);
+  assert.equal(slicesPassed(0, 10, 0), 0);
 });

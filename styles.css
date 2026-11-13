@@ -53,6 +53,8 @@ button, .btn, .upload-btn {
   cursor: pointer;
 }
 
+.bar-actions { display: flex; gap: 8px; }
+
 .icon-btn {
   min-width: 44px;
   border: 1px solid var(--border);

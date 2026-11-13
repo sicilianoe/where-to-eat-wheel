@@ -37,3 +37,13 @@ export function targetRotation(index, n, current, turns = 5) {
   const desired = mod(-(index + 0.5) * (TAU / n), TAU);
   return current + turns * TAU + mod(desired - current, TAU);
 }
+
+/**
+ * Number of slice edges that crossed the pointer while rotating from `from` to `to`.
+ * @param {number} from @param {number} to @param {number} n
+ */
+export function slicesPassed(from, to, n) {
+  if (n === 0) return 0;
+  const slice = TAU / n;
+  return Math.abs(Math.floor(to / slice) - Math.floor(from / slice));
+}

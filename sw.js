@@ -1,4 +1,4 @@
-const CACHE = 'eat-wheel-v1';
+const CACHE = 'eat-wheel-v2';
 const SHELL = [
   './',
   'index.html',
@@ -10,6 +10,7 @@ const SHELL = [
   'src/store.js',
   'src/wheel-model.js',
   'src/wheel-canvas.js',
+  'src/sound.js',
 ];
 
 self.addEventListener('install', event => {
