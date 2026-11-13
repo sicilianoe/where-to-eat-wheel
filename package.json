@@ -1,0 +1,8 @@
+{
+  "name": "gmaps-wheel",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/"
+  }
+}
