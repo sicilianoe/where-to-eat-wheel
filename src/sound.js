@@ -41,5 +41,23 @@ export function createTicker() {
       osc.start(t);
       osc.stop(t + 0.05);
     },
+
+    /** Two-note chime when the wheel lands. */
+    ding() {
+      if (muted || !ctx) return;
+      const t = ctx.currentTime;
+      [[1047, 0], [1568, 0.12]].forEach(([freq, delay]) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t + delay);
+        gain.gain.setValueAtTime(0.0001, t + delay);
+        gain.gain.exponentialRampToValueAtTime(0.3, t + delay + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.6);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(t + delay);
+        osc.stop(t + delay + 0.65);
+      });
+    },
   };
 }

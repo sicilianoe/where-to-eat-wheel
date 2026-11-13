@@ -1,4 +1,4 @@
-const CACHE = 'eat-wheel-v2';
+const CACHE = 'eat-wheel-v3';
 const SHELL = [
   './',
   'index.html',

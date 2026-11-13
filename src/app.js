@@ -89,6 +89,7 @@ async function spin() {
   });
 
   spinning = false;
+  ticker.ding();
   render();
   showResult(wheel[index]);
   $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
