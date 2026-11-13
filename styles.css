@@ -187,4 +187,66 @@ button, .btn, .upload-btn {
   color: var(--accent-fg);
 }
 
+.editor {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 12px 16px 0;
+}
+
+.editor-bulk { display: flex; gap: 8px; }
+
+.search {
+  width: 100%;
+  min-height: 44px;
+  margin: 8px 0;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+  font: inherit;
+}
+
+.edit-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.edit-items label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.edit-items input {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  accent-color: var(--accent);
+}
+
+.edit-items .name { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.edit-items small { display: block; color: var(--muted); }
+
+.edit-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.editor-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  background: var(--bg);
+}
+
 [hidden] { display: none !important; }

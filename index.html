@@ -50,6 +50,22 @@
     </section>
   </main>
 
+  <section id="editor" class="editor" hidden>
+    <header class="bar">
+      <h1>Edit wheel</h1>
+      <div class="editor-bulk">
+        <button id="edit-all" class="btn" type="button">All</button>
+        <button id="edit-none" class="btn" type="button">None</button>
+      </div>
+    </header>
+    <input id="edit-search" class="search" type="search" placeholder="🔍 Search…" autocomplete="off">
+    <ul id="edit-items" class="edit-items"></ul>
+    <div id="edit-lists" class="edit-lists"></div>
+    <div class="editor-footer">
+      <button id="edit-done" class="spin" type="button">Done</button>
+    </div>
+  </section>
+
   <script type="module" src="src/app.js"></script>
 </body>
 </html>

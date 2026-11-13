@@ -1,5 +1,7 @@
 import { parseTakeoutCsv } from './csv.js';
-import { loadState, saveState, addList, setListActive } from './store.js';
+import {
+  loadState, saveState, addList, removeList, setListActive, setExcluded, activePlaces,
+} from './store.js';
 import { wheelPlaces, pickIndex, targetRotation } from './wheel-model.js';
 import { drawWheel, animateSpin } from './wheel-canvas.js';
 
@@ -121,6 +123,73 @@ $('reset-skipped').addEventListener('click', () => {
   skipped.clear();
   render();
 });
+
+// Edit wheel screen
+
+function visibleEditorPlaces() {
+  const q = $('edit-search').value.trim().toLowerCase();
+  return activePlaces(state).filter(p => !q || `${p.title} ${p.note}`.toLowerCase().includes(q));
+}
+
+function renderEditor() {
+  const excluded = new Set(state.excluded);
+  const showList = state.activeLists.length > 1;
+  $('edit-items').replaceChildren(...visibleEditorPlaces().map(place => {
+    const li = document.createElement('li');
+    const label = document.createElement('label');
+    const box = document.createElement('input');
+    box.type = 'checkbox';
+    box.checked = !excluded.has(place.id);
+    box.addEventListener('change', () => update(setExcluded(state, [place.id], !box.checked)));
+    const name = document.createElement('span');
+    name.className = 'name';
+    name.textContent = place.title;
+    if (showList) {
+      const list = document.createElement('small');
+      list.textContent = place.list;
+      name.append(list);
+    }
+    label.append(box, name);
+    li.append(label);
+    return li;
+  }));
+
+  $('edit-lists').replaceChildren(...Object.keys(state.lists).map(listName => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'link-btn';
+    btn.textContent = `Remove “${listName}”`;
+    btn.addEventListener('click', () => {
+      if (!confirm(`Remove the list “${listName}”? You can upload it again later.`)) return;
+      update(removeList(state, listName));
+      renderEditor();
+    });
+    return btn;
+  }));
+}
+
+function setEditorOpen(open) {
+  $('editor').hidden = !open;
+  $('main').hidden = open;
+  if (open) {
+    $('edit-search').value = '';
+    renderEditor();
+    window.scrollTo(0, 0);
+  } else {
+    render();
+  }
+}
+
+function setVisibleExcluded(excluded) {
+  update(setExcluded(state, visibleEditorPlaces().map(p => p.id), excluded));
+  renderEditor();
+}
+
+$('edit-btn').addEventListener('click', () => setEditorOpen(true));
+$('edit-done').addEventListener('click', () => setEditorOpen(false));
+$('edit-search').addEventListener('input', renderEditor);
+$('edit-all').addEventListener('click', () => setVisibleExcluded(false));
+$('edit-none').addEventListener('click', () => setVisibleExcluded(true));
 
 // Flick the wheel to spin.
 let pointerStart = null;
