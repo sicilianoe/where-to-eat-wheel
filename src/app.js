@@ -202,3 +202,5 @@ $('wheel').addEventListener('pointerup', e => {
 window.addEventListener('resize', () => drawWheel($('wheel'), places, rotation));
 
 render();
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
