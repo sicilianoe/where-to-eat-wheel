@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Where to Eat Wheel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="main">
+    <header class="bar">
+      <h1>Where to eat?</h1>
+      <button id="edit-btn" class="icon-btn" type="button" aria-label="Edit wheel">✏️</button>
+    </header>
+
+    <section class="lists">
+      <div id="chips" class="chips"></div>
+      <label class="upload-btn">
+        ＋ Upload
+        <input id="upload" type="file" accept=".csv,text/csv" multiple hidden>
+      </label>
+    </section>
+    <p id="upload-error" class="error" hidden></p>
+
+    <section id="empty" class="empty" hidden>
+      <h2>Add your Google Maps lists</h2>
+      <ol>
+        <li>Go to <strong>takeout.google.com</strong> and sign in.</li>
+        <li>Click <strong>Deselect all</strong>, then check <strong>Saved</strong>.</li>
+        <li><strong>Next step</strong> → Export once → .zip → <strong>Create export</strong>.</li>
+        <li>Download and unzip it. Your lists are in <code>Takeout/Saved/*.csv</code>.</li>
+        <li>Tap <strong>＋ Upload</strong> and pick one or more of those CSVs.</li>
+      </ol>
+    </section>
+
+    <section id="wheel-area" class="wheel-area">
+      <canvas id="wheel" class="wheel" aria-label="Spinner wheel"></canvas>
+      <p id="message" class="message" hidden></p>
+      <button id="spin" class="spin" type="button">SPIN</button>
+      <button id="reset-skipped" class="link-btn" type="button" hidden></button>
+    </section>
+
+    <section id="result" class="result" hidden aria-live="polite">
+      <h2 id="result-title"></h2>
+      <p id="result-note"></p>
+      <div class="result-actions">
+        <a id="result-maps" class="btn primary" target="_blank" rel="noopener">Open in Maps</a>
+        <button id="nope" class="btn" type="button">Nope, spin again</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>
