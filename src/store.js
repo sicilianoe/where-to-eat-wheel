@@ -23,9 +23,14 @@ export function loadState(storage) {
   }
 }
 
-/** @param {Storage} storage @param {State} state */
+/** @param {Storage} storage @param {State} state @returns {boolean} whether it was saved */
 export function saveState(storage, state) {
-  storage.setItem(KEY, JSON.stringify(state));
+  try {
+    storage.setItem(KEY, JSON.stringify(state));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /** @param {State} state @param {string} name @param {Place[]} places @returns {State} */

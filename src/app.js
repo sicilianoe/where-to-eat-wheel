@@ -16,7 +16,7 @@ let places = [];
 
 function update(next) {
   state = next;
-  saveState(localStorage, state);
+  $('save-error').hidden = saveState(localStorage, state);
   render();
 }
 
@@ -28,6 +28,7 @@ function renderChips() {
     chip.className = 'chip';
     chip.textContent = `${name} (${state.lists[name].length})`;
     chip.setAttribute('aria-pressed', String(state.activeLists.includes(name)));
+    chip.disabled = spinning;
     chip.addEventListener('click', () => {
       update(setListActive(state, name, !state.activeLists.includes(name)));
     });
@@ -43,6 +44,7 @@ function render() {
   $('empty').hidden = hasLists;
   $('wheel-area').hidden = !hasLists;
   $('edit-btn').hidden = !hasLists;
+  $('edit-btn').disabled = spinning;
 
   const message = $('message');
   message.hidden = places.length > 0;

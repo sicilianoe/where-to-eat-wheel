@@ -55,3 +55,9 @@ test('setExcluded adds without duplicates and removes', () => {
   assert.deepEqual(state.excluded, ['A|x']);
   assert.deepEqual(setExcluded(state, ['A|x'], false).excluded, []);
 });
+
+test('saveState reports failure instead of throwing when storage rejects writes', () => {
+  const s = { getItem: () => null, setItem() { throw new Error('QuotaExceededError'); } };
+  assert.equal(saveState(s, empty), false);
+  assert.equal(saveState(fakeStorage(), empty), true);
+});

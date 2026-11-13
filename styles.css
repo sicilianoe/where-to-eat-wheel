@@ -126,7 +126,7 @@ button, .btn, .upload-btn {
 .wheel {
   width: min(90vw, 420px);
   aspect-ratio: 1;
-  touch-action: none;
+  touch-action: pan-y;
 }
 
 .message { color: var(--muted); text-align: center; margin: 0; }
@@ -143,6 +143,7 @@ button, .btn, .upload-btn {
   letter-spacing: 0.08em;
 }
 .spin:disabled { opacity: 0.4; cursor: default; }
+.chip:disabled, .icon-btn:disabled { opacity: 0.5; cursor: default; }
 
 .link-btn {
   border: 0;
